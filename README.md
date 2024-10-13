@@ -1,7 +1,7 @@
 
-# TaskPlanner
+# Task Planner
 
-TaskPlanner is a dynamic to-do list web application integrated into a calendar view. It is designed to help users efficiently manage tasks within a calendar interface, offering both month and week views.
+Task Planner is a dynamic to-do list web application integrated into a calendar view. It is designed to help users efficiently manage tasks within a calendar interface, offering both month and week views.
 
 
 ## Features
@@ -31,7 +31,7 @@ TaskPlanner is a dynamic to-do list web application integrated into a calendar v
 1. **Clone the Repository**:
    ```bash
    git clone https://github.com/varun-inapakurthi/task-planner.git
-   cd taskplanner
+   cd Task Planner
    ```
 
 2. **Install Dependencies**:
