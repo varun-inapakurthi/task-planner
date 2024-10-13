@@ -21,11 +21,7 @@ const SignupLogin = () => {
         });
         navigate('/');
       } catch (error) {
-        if (error.response && error.response.status === 401) {
-          navigate('/login');
-        } else {
-          console.error('Error verifying user:', error);
-        }
+        console.error('Error verifying user:', error);
       }
     };
     verifyUser();
@@ -39,9 +35,7 @@ const SignupLogin = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const url = isLogin
-        ? '/auth/login'
-        : '/auth/signup';
+      const url = isLogin ? '/auth/login' : '/auth/signup';
       await axiosInstance.post(
         url,
         {
@@ -172,7 +166,9 @@ const SignupLogin = () => {
 
       <footer className='bg-gray-800 text-white py-8'>
         <div className='container mx-auto px-4 text-center'>
-          <p>&copy; {new Date().getFullYear()} Task Planner. All rights reserved.</p>
+          <p>
+            &copy; {new Date().getFullYear()} Task Planner. All rights reserved.
+          </p>
         </div>
       </footer>
     </div>
