@@ -6,7 +6,7 @@ import { SetToast } from '../utils/toast';
 import { Calendar, Clock, CheckSquare } from 'lucide-react';
 import axiosInstance from '../utils/axios';
 
-const LandingPage = () => {
+const SignupLogin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLogin, setIsLogin] = useState(true);
@@ -179,4 +179,4 @@ const LandingPage = () => {
   );
 };
 
-export default LandingPage;
+export default SignupLogin;
