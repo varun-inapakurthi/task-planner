@@ -148,7 +148,7 @@ const LandingPage = () => {
             {
               icon: Calendar,
               title: 'Monthly Calendar View',
-              description: 'Get a broad overview of your tasks and events',
+              description: 'Get a broad overview of your tasks',
             },
             {
               icon: Clock,
