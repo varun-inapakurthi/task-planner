@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Task } from '../types';
 import {
   Calendar,
@@ -48,7 +48,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
         status,
       };
       if (task && onUpdateTask) {
-        newTask.id = task._id 
+        newTask.id = task._id;
         onUpdateTask(newTask);
       } else {
         onAddTask(newTask);
@@ -62,6 +62,17 @@ const TaskForm: React.FC<TaskFormProps> = ({
     }
   };
 
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && onClose) {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [onClose]);
   return (
     <div className='bg-white p-8 rounded-xl shadow-lg w-full max-w-md max-h-min'>
       <div className='flex justify-between items-center mb-6'>
@@ -107,8 +118,8 @@ const TaskForm: React.FC<TaskFormProps> = ({
           </label>
           <textarea
             id='description'
-            value={description} 
-            onChange={(e) => setDescription(e.target.value)} 
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
             className='w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-300 transition duration-200 ease-in-out'
             placeholder='Enter task description'
             rows={4}
