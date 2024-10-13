@@ -5,6 +5,7 @@ import Calendar from './Calendar';
 import TaskForm from './TaskForm';
 import { Task, CalendarView } from '../types';
 import { SetToast } from '../utils/toast';
+import axiosInstance from '../utils/axios';
 interface AppProps {
   setIsAuthenticated: (isAuthenticated: boolean) => void;
 }
@@ -45,8 +46,8 @@ function App({ setIsAuthenticated }: AppProps) {
         }
       };
       const { startDate, endDate } = taskDates();
-      const response = await axios.get(
-        `http://localhost:5001/api/tasks?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`,
+      const response = await axiosInstance.get(
+        `/api/tasks?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`,
         {
           withCredentials: true,
           headers: {
@@ -85,7 +86,7 @@ function App({ setIsAuthenticated }: AppProps) {
 
   const addTask = async (task: Task) => {
     try {
-      await axios.post('http://localhost:5001/api/tasks', task, {
+      await axiosInstance.post('/api/tasks', task, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -104,8 +105,8 @@ function App({ setIsAuthenticated }: AppProps) {
 
   const updateTask = async (updatedTask: Task) => {
     try {
-      await axios.put(
-        'http://localhost:5001/api/tasks/' + updatedTask.id,
+      await axiosInstance.put(
+        '/api/tasks/' + updatedTask.id,
         updatedTask,
         {
           headers: {
@@ -123,7 +124,7 @@ function App({ setIsAuthenticated }: AppProps) {
 
   const deleteTask = async (taskId: string) => {
     try {
-      await axios.delete('http://localhost:5001/api/tasks/' + taskId, {
+      await axiosInstance.delete('/api/tasks/' + taskId, {
         headers: {
           'Content-Type': 'application/json',
         },

@@ -2,6 +2,7 @@ import axios from 'axios';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SetToast } from '../utils/toast';
+import axiosInstance from '../utils/axios';
 
 type HeaderProps = {
   isAuthenticated: boolean;
@@ -16,8 +17,8 @@ const Header: React.FC<HeaderProps> = ({
 
   const handleLogout = async () => {
     try {
-      await axios.post(
-        'http://localhost:5001/auth/logout',
+      await axiosInstance.post(
+        '/auth/logout',
         {},
         {
           headers: {

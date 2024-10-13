@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { User, UserPlus } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import axios from 'axios';
 import { SetToast } from '../utils/toast';
 
 import { Calendar, Clock, CheckSquare } from 'lucide-react';
+import axiosInstance from '../utils/axios';
 
 const LandingPage = () => {
   const [email, setEmail] = useState('');
@@ -12,6 +12,24 @@ const LandingPage = () => {
   const [isLogin, setIsLogin] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
+
+  useEffect(() => {
+    const verifyUser = async () => {
+      try {
+        await axiosInstance.get('/auth/verify', {
+          withCredentials: true,
+        });
+        navigate('/');
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+          navigate('/login');
+        } else {
+          console.error('Error verifying user:', error);
+        }
+      }
+    };
+    verifyUser();
+  }, [navigate]);
 
   useEffect(() => {
     const path = location.pathname;
@@ -22,9 +40,9 @@ const LandingPage = () => {
     e.preventDefault();
     try {
       const url = isLogin
-        ? 'http://localhost:5001/auth/login'
-        : 'http://localhost:5001/auth/signup';
-      await axios.post(
+        ? '/auth/login'
+        : '/auth/signup';
+      await axiosInstance.post(
         url,
         {
           email,
@@ -40,7 +58,7 @@ const LandingPage = () => {
 
       navigate('/');
     } catch (error) {
-      SetToast(error?.response?.data?.message );
+      SetToast(error?.response?.data?.message);
       console.error(error.response.data.message);
     }
   };

@@ -13,13 +13,11 @@ export const signup = async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
   try {
-
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-       res.status(409).json({ message: 'User already exists with this email' });
-       return;
+      res.status(409).json({ message: 'User already exists with this email' });
+      return;
     }
-
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({ email, password: hashedPassword });
@@ -34,7 +32,7 @@ export const signup = async (req: Request, res: Response) => {
   }
 };
 
-export const login = async (req: Request, res: Response)=> {
+export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
   try {
@@ -66,4 +64,10 @@ export const logout = (req: Request, res: Response) => {
       res.status(200).json({ message: 'Logged out' });
     }
   });
+};
+
+export const verifyLogin = (req: Request, res: Response) => {
+  res
+    .status(200)
+    .json({ message: 'User is logged in', userId: req.session.userId });
 };
