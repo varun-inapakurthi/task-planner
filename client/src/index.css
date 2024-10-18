@@ -8,17 +8,6 @@
   box-sizing: border-box;
 }
 
-/* Animation for sliding in and out */
-.slide-in-right {
-  transform: translateX(100%);
-}
-.slide-in-left {
-  transform: translateX(-100%);
-}
-.transition-transform {
-  transform: translateX(0%);
-}
-
 input {
   @apply border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-300 transition duration-200 ease-in-out;
 }

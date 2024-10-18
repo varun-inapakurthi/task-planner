@@ -65,7 +65,7 @@ function App({ setIsAuthenticated }: AppProps) {
   };
 
   useEffect(() => {
-    const interceptor = axios.interceptors.response.use(
+    const interceptor = axiosInstance.interceptors.response.use(
       (response) => {
         return response;
       },
@@ -80,7 +80,7 @@ function App({ setIsAuthenticated }: AppProps) {
     getTasks();
 
     return () => {
-      axios.interceptors.response.eject(interceptor);
+      axiosInstance.interceptors.response.eject(interceptor);
     };
   }, [navigate, view]);
 
