@@ -17,7 +17,6 @@ export const sessionMiddleware = session({
     httpOnly: true,
     secure: true,
     sameSite: 'none',
-    domain: process.env.NODE_ENV === 'production' ? '.vercel.app' : undefined,
   },
   name: 'sessionId',
 });
