@@ -20,7 +20,6 @@ export const sessionMiddleware = session({
     httpOnly: true,
     secure: isProduction,
     sameSite: isProduction ? 'none' : 'lax',
-    domain: isProduction ? '.vercel.app' : undefined,
     path: '/',
   },
   name: 'sessionId',
@@ -32,7 +31,7 @@ console.log(`  MongoDB URL: ${process.env.MONGO_URI ? 'Set from env' : 'Not set'
 console.log(`  Cookie settings:`);
 console.log(`    Secure: ${isProduction}`);
 console.log(`    SameSite: ${isProduction ? 'none' : 'lax'}`);
-console.log(`    Domain: ${isProduction ? '.vercel.app' : 'Not set (default)'}`);
+console.log(`    Domain: Not set (using default)`);
 console.log(`    HttpOnly: true`);
 console.log(`    Max Age: ${1000 * 60 * 60 * 24} ms (24 hours)`);
 
