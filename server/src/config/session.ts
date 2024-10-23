@@ -17,6 +17,8 @@ export const sessionMiddleware = session({
     httpOnly: true,
     secure: true,
     sameSite: 'none',
+    domain: '.vercel.app',
+    path: '/',
   },
   name: 'sessionId',
 });
