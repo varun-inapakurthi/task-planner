@@ -24,6 +24,10 @@ app.use(sessionMiddleware);
 
 app.use('/auth', userRoutes);
 app.use('/api', taskRoutes);
+
+app.get('/', (req, res) => {
+  res.send('Hello World');
+});
 mongoose
   .connect(process.env.MONGO_URI!)
   .then(() => {
