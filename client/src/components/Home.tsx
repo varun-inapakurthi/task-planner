@@ -6,6 +6,7 @@ import TaskForm from './TaskForm';
 import { Task, CalendarView } from '../types';
 import { SetToast } from '../utils/toast';
 import axiosInstance from '../utils/axios';
+import Loader from './Loader';
 interface AppProps {
   setIsAuthenticated: (isAuthenticated: boolean) => void;
 }
@@ -13,9 +14,11 @@ interface AppProps {
 function App({ setIsAuthenticated }: AppProps) {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [view, setView] = useState<CalendarView>('month');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const getTasks = async () => {
     try {
+      setLoading(true);
       const taskDates = () => {
         if (view === 'month') {
           return {
@@ -61,6 +64,8 @@ function App({ setIsAuthenticated }: AppProps) {
       if (!axios.isAxiosError(error)) {
         console.log('Something went wrong');
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -105,16 +110,12 @@ function App({ setIsAuthenticated }: AppProps) {
 
   const updateTask = async (updatedTask: Task) => {
     try {
-      await axiosInstance.put(
-        '/api/tasks/' + updatedTask.id,
-        updatedTask,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          withCredentials: true,
-        }
-      );
+      await axiosInstance.put('/api/tasks/' + updatedTask.id, updatedTask, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      });
       getTasks();
     } catch (error) {
       SetToast(error.response.data.message || 'Error while updating task');
@@ -139,46 +140,50 @@ function App({ setIsAuthenticated }: AppProps) {
 
   return (
     <div className='min-h-screen bg-gradient-to-b from-gray-100 to-gray-200 flex flex-col'>
-      <main className='flex-grow p-6'>
-        <div className='mb-6 flex flex-wrap gap-3 justify-center sm:justify-start'>
-          <button
-            className={`px-6 py-2 rounded-lg text-sm font-semibold transition-colors duration-200 ease-in-out ${
-              view === 'month'
-                ? 'bg-blue-600 text-white shadow-md'
-                : 'bg-white text-gray-700 hover:bg-gray-100 shadow-sm'
-            }`}
-            onClick={() => setView('month')}
-          >
-            Month View
-          </button>
-          <button
-            className={`px-6 py-2 rounded-lg text-sm font-semibold transition-colors duration-200 ease-in-out ${
-              view === 'week'
-                ? 'bg-blue-600 text-white shadow-md'
-                : 'bg-white text-gray-700 hover:bg-gray-100 shadow-sm'
-            }`}
-            onClick={() => setView('week')}
-          >
-            Week View
-          </button>
-        </div>
-
-        <div className='flex flex-col lg:flex-row gap-6'>
-          <div className='w-full lg:w-3/4 bg-white p-6 rounded-lg shadow-lg'>
-            <Calendar
-              tasks={tasks}
-              view={view}
-              onUpdateTask={updateTask}
-              onDeleteTask={deleteTask}
-              onAddTask={addTask}
-            />
+      {loading ? (
+        <Loader />
+      ) : (
+        <main className='flex-grow p-6'>
+          <div className='mb-6 flex flex-wrap gap-3 justify-center sm:justify-start'>
+            <button
+              className={`px-6 py-2 rounded-lg text-sm font-semibold transition-colors duration-200 ease-in-out ${
+                view === 'month'
+                  ? 'bg-blue-600 text-white shadow-md'
+                  : 'bg-white text-gray-700 hover:bg-gray-100 shadow-sm'
+              }`}
+              onClick={() => setView('month')}
+            >
+              Month View
+            </button>
+            <button
+              className={`px-6 py-2 rounded-lg text-sm font-semibold transition-colors duration-200 ease-in-out ${
+                view === 'week'
+                  ? 'bg-blue-600 text-white shadow-md'
+                  : 'bg-white text-gray-700 hover:bg-gray-100 shadow-sm'
+              }`}
+              onClick={() => setView('week')}
+            >
+              Week View
+            </button>
           </div>
 
-          <div className='w-full lg:w-1/4 bg-white p-6 rounded-lg shadow-lg'>
-            <TaskForm onAddTask={addTask} />
+          <div className='flex flex-col lg:flex-row gap-6'>
+            <div className='w-full lg:w-3/4 bg-white p-6 rounded-lg shadow-lg'>
+              <Calendar
+                tasks={tasks}
+                view={view}
+                onUpdateTask={updateTask}
+                onDeleteTask={deleteTask}
+                onAddTask={addTask}
+              />
+            </div>
+
+            <div className='w-full lg:w-1/4 bg-white p-6 rounded-lg shadow-lg'>
+              <TaskForm onAddTask={addTask} />
+            </div>
           </div>
-        </div>
-      </main>
+        </main>
+      )}
     </div>
   );
 }
