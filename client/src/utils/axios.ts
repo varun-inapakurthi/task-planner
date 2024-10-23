@@ -1,10 +1,10 @@
 import axios from 'axios';
-
+console.log('import.meta.env.VITE_SERVER_URL', import.meta.env.VITE_SERVER_URL);
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:5001', 
+  baseURL: import.meta.env.VITE_SERVER_URL,
   timeout: 10000,
   headers: {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
   },
 });
 
