@@ -25,7 +25,12 @@ function App() {
           <Route path='/signup' element={<SignupLogin />} />
           <Route
             path='/'
-            element={<Home setIsAuthenticated={setIsAuthenticated} />}
+            element={
+              <Home
+                setIsAuthenticated={setIsAuthenticated}
+                isAuthenticated={isAuthenticated}
+              />
+            }
           />
           <Route path='*' element={<Navigate to='/login' replace />} />
         </Routes>

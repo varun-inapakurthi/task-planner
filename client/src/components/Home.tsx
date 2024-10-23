@@ -9,16 +9,15 @@ import axiosInstance from '../utils/axios';
 import Loader from './Loader';
 interface AppProps {
   setIsAuthenticated: (isAuthenticated: boolean) => void;
+  isAuthenticated: boolean;
 }
 
-function App({ setIsAuthenticated }: AppProps) {
+function App({ setIsAuthenticated, isAuthenticated }: AppProps) {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [view, setView] = useState<CalendarView>('month');
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const getTasks = async () => {
     try {
-      setLoading(true);
       const taskDates = () => {
         if (view === 'month') {
           return {
@@ -64,8 +63,6 @@ function App({ setIsAuthenticated }: AppProps) {
       if (!axios.isAxiosError(error)) {
         console.log('Something went wrong');
       }
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -140,7 +137,7 @@ function App({ setIsAuthenticated }: AppProps) {
 
   return (
     <div className='min-h-screen bg-gradient-to-b from-gray-100 to-gray-200 flex flex-col'>
-      {loading ? (
+      {!isAuthenticated ? (
         <Loader />
       ) : (
         <main className='flex-grow p-6'>
