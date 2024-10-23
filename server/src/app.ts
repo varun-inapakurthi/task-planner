@@ -2,7 +2,7 @@ import express from 'express';
 import mongoose, { MongooseError } from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import { sessionMiddleware } from './config/session';
+import { sessionMiddleware , testSessionMiddleware} from './config/session';
 import userRoutes from './routes/userRoutes';
 import taskRoutes from './routes/taskRoutes';
 
@@ -23,7 +23,7 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(sessionMiddleware);
-
+app.use(testSessionMiddleware);
 app.use('/auth', userRoutes);
 app.use('/api', taskRoutes);
 
