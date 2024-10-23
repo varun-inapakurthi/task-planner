@@ -11,7 +11,8 @@ export const sessionMiddleware = session({
   store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }),
   cookie: {
     maxAge: 1000 * 60 * 60 * 24, // 1 day
-    httpOnly: false, 
-    secure: false, 
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
   },
 });
+
