@@ -1,5 +1,5 @@
 import express from 'express';
-import mongoose from 'mongoose';
+import mongoose, { MongooseError } from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import { sessionMiddleware } from './config/session';
@@ -32,6 +32,6 @@ mongoose
       console.log(`Server is running on port ${port}`);
     });
   })
-  .catch((err) => {
+  .catch((err: MongooseError) => {
     console.error('Failed to connect to MongoDB', err);
   });
